@@ -26,18 +26,7 @@ interface ChoresState {
 export const useChoresStore = create<ChoresState>()(
   persist(
     (set, get) => ({
-      chores: [
-        {
-          id: "d52399b7-318e-4c3d-88a2-e8384abd6ec1",
-          name: "トイレ掃除",
-          color: "#4CAF50",
-          records: [
-            { date: "2025-10-01" },
-            { date: "2025-10-02" },
-            { date: "2025-10-05" },
-          ],
-        },
-      ],
+      chores: [],
       addChore: (name: string, color: string) =>
         set((state) => ({
           chores: [

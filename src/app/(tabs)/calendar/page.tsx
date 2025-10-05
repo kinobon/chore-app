@@ -112,8 +112,18 @@ export default function CalendarPage() {
         </Toolbar>
       </AppBar>
 
-      <Container maxWidth="md" sx={{ py: 3, pb: 10 }}>
-        <Paper sx={{ p: 2, mb: 3 }}>
+      <Container
+        maxWidth="md"
+        sx={{
+          py: 3,
+          pb: 10,
+          height: "calc(100vh - 56px - 56px)", // AppBarとBottomNavigationの高さを引く
+          display: "flex",
+          flexDirection: "column",
+          overflow: "hidden",
+        }}
+      >
+        <Paper sx={{ p: 2, mb: 3, flexShrink: 0 }}>
           <Box
             sx={{
               display: "flex",
@@ -222,40 +232,54 @@ export default function CalendarPage() {
           </Box>
         </Paper>
 
-        <Box>
-          <Typography variant="h6" sx={{ mb: 2 }}>
+        <Box
+          sx={{
+            flex: 1,
+            display: "flex",
+            flexDirection: "column",
+            overflow: "hidden",
+          }}
+        >
+          <Typography variant="h6" sx={{ mb: 2, flexShrink: 0 }}>
             {selectedDate} の実施記録
           </Typography>
-          {getChoresForSelectedDate().length === 0 ? (
-            <Paper sx={{ p: 3, textAlign: "center" }}>
-              <Typography color="text.secondary">
-                この日の実施記録はありません
-              </Typography>
-            </Paper>
-          ) : (
-            <List>
-              {getChoresForSelectedDate().map((chore) => (
-                <Paper key={chore.id} sx={{ mb: 1 }}>
-                  <ListItem disablePadding>
-                    <ListItemButton
-                      onClick={() => router.push(`/chores/${chore.id}`)}
-                    >
-                      <Box
-                        sx={{
-                          width: 16,
-                          height: 16,
-                          borderRadius: "50%",
-                          backgroundColor: chore.color,
-                          mr: 2,
-                        }}
-                      />
-                      <ListItemText primary={chore.name} />
-                    </ListItemButton>
-                  </ListItem>
-                </Paper>
-              ))}
-            </List>
-          )}
+          <Box
+            sx={{
+              flex: 1,
+              overflowY: "scroll", // 常にスクロールバー領域を確保
+            }}
+          >
+            {getChoresForSelectedDate().length === 0 ? (
+              <Paper sx={{ p: 3, textAlign: "center" }}>
+                <Typography color="text.secondary">
+                  この日の実施記録はありません
+                </Typography>
+              </Paper>
+            ) : (
+              <List>
+                {getChoresForSelectedDate().map((chore) => (
+                  <Paper key={chore.id} sx={{ mb: 1 }}>
+                    <ListItem disablePadding>
+                      <ListItemButton
+                        onClick={() => router.push(`/chores/${chore.id}`)}
+                      >
+                        <Box
+                          sx={{
+                            width: 16,
+                            height: 16,
+                            borderRadius: "50%",
+                            backgroundColor: chore.color,
+                            mr: 2,
+                          }}
+                        />
+                        <ListItemText primary={chore.name} />
+                      </ListItemButton>
+                    </ListItem>
+                  </Paper>
+                ))}
+              </List>
+            )}
+          </Box>
         </Box>
       </Container>
     </>

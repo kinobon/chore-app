@@ -39,8 +39,25 @@ export default function ChoresPage() {
         </Toolbar>
       </AppBar>
 
-      <Container maxWidth="md" sx={{ py: 3, pb: 10 }}>
-        <Box sx={{ mb: 3 }}>
+      <Container
+        maxWidth="md"
+        sx={{
+          py: 3,
+          pb: 10,
+          height: "calc(100vh - 56px - 56px)", // AppBarとBottomNavigationの高さを引く
+          display: "flex",
+          flexDirection: "column",
+          overflow: "hidden",
+        }}
+      >
+        <Box
+          sx={{
+            flex: 1,
+            overflowY: "scroll", // 常にスクロールバー領域を確保
+            pr: 1, // スクロールバーとの余白
+            mr: -1, // Container paddingとの調整
+          }}
+        >
           {chores.length === 0 ? (
             <Box
               sx={{

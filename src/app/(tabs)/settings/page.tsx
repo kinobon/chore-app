@@ -80,6 +80,27 @@ export default function SettingsPage() {
     }
   };
 
+  const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      const text = e.target?.result as string;
+      setImportText(text);
+    };
+    reader.onerror = () => {
+      setSnackbar({
+        open: true,
+        message: "ファイルの読み込みに失敗しました",
+        severity: "error",
+      });
+    };
+    reader.readAsText(file);
+    // input要素をリセット（同じファイルを再度選択可能にする）
+    event.target.value = "";
+  };
+
   const handleDeleteAll = () => {
     importData(JSON.stringify({ chores: [] }));
     setDeleteModalOpen(false);
@@ -215,6 +236,28 @@ export default function SettingsPage() {
           <Alert severity="warning" sx={{ mb: 2 }}>
             インポートすると現在のデータは上書きされます
           </Alert>
+
+          <Box sx={{ mb: 2 }}>
+            <Button
+              variant="outlined"
+              component="label"
+              fullWidth
+              startIcon={<CloudDownloadIcon />}
+              sx={{ mb: 2 }}
+            >
+              ファイルを選択
+              <input
+                type="file"
+                accept="application/json,.json"
+                hidden
+                onChange={handleFileUpload}
+              />
+            </Button>
+            <Typography variant="body2" color="text.secondary" align="center">
+              または直接JSONを貼り付け
+            </Typography>
+          </Box>
+
           <TextField
             multiline
             rows={10}

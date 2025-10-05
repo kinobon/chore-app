@@ -1,7 +1,7 @@
 "use client";
 
-import React, { useState } from "react";
-import { useParams, useRouter } from "next/navigation";
+import React, { useState, useEffect } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 import {
   Container,
   Typography,
@@ -24,14 +24,20 @@ import { EditChoreModal } from "@/components/EditChoreModal";
 import { ChoreCalendar } from "@/components/ChoreCalendar";
 
 export default function ChoreDetailPage() {
-  const params = useParams();
   const router = useRouter();
-  const id = params.id as string;
+  const searchParams = useSearchParams();
+  const id = searchParams.get("id");
   const { chores, deleteChore, updateChore } = useChoresStore();
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const [editModalOpen, setEditModalOpen] = useState(false);
 
   const chore = chores.find((c) => c.id === id);
+
+  useEffect(() => {
+    if (!id) {
+      router.push("/chores");
+    }
+  }, [id, router]);
 
   if (!chore) {
     return (
@@ -58,12 +64,14 @@ export default function ChoreDetailPage() {
   }
 
   const handleDelete = () => {
+    if (!id) return;
     deleteChore(id);
     setDeleteModalOpen(false);
     router.push("/chores");
   };
 
   const handleEditSave = (name: string, color: string) => {
+    if (!id) return;
     updateChore(id, name, color);
   };
 

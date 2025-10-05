@@ -261,7 +261,7 @@ export default function CalendarPage() {
                   <Paper key={chore.id} sx={{ mb: 1 }}>
                     <ListItem disablePadding>
                       <ListItemButton
-                        onClick={() => router.push(`/chores/${chore.id}`)}
+                        onClick={() => router.push(`/chores/detail?id=${chore.id}`)}
                       >
                         <Box
                           sx={{

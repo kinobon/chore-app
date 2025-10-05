@@ -50,7 +50,7 @@ export const ChoreCard: React.FC<ChoreCardProps> = ({
     if (target.closest("button") || target.closest('[role="button"]')) {
       return;
     }
-    router.push(`/chores/${chore.id}`);
+    router.push(`/chores/detail?id=${chore.id}`);
   };
 
   return (

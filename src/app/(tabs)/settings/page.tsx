@@ -71,7 +71,7 @@ export default function SettingsPage() {
         message: "データをインポートしました",
         severity: "success",
       });
-    } catch (error) {
+    } catch {
       setSnackbar({
         open: true,
         message: "無効なJSONデータです",

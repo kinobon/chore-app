@@ -1,23 +1,10 @@
 "use client";
 
-import React, { useState } from "react";
+import React from "react";
 import { useRouter } from "next/navigation";
-import {
-  Card,
-  CardContent,
-  Typography,
-  IconButton,
-  Box,
-  Button,
-} from "@mui/material";
-import {
-  Delete as DeleteIcon,
-  CheckCircle as CheckCircleIcon,
-  Edit as EditIcon,
-} from "@mui/icons-material";
+import { Card, CardContent, Typography, Box, Button } from "@mui/material";
+import { CheckCircle as CheckCircleIcon } from "@mui/icons-material";
 import { Chore } from "../store/useChoresStore";
-import { DeleteConfirmModal } from "./DeleteConfirmModal";
-import { EditChoreModal } from "./EditChoreModal";
 
 interface ChoreCardProps {
   chore: Chore;
@@ -30,8 +17,6 @@ export const ChoreCard: React.FC<ChoreCardProps> = ({
   onComplete,
   onUncomplete,
 }) => {
-  const [deleteModalOpen, setDeleteModalOpen] = useState(false);
-  const [editModalOpen, setEditModalOpen] = useState(false);
   const router = useRouter();
   const formatDate = (records: { date: string }[]) => {
     if (records.length === 0) return "未実施";

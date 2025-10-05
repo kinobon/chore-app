@@ -16,8 +16,8 @@ interface ChoresState {
   chores: Chore[];
   addChore: (name: string, color: string) => void;
   deleteChore: (id: string) => void;
-  completeChore: (id: string) => void;
-  uncompleteChore: (id: string) => void;
+  completeChore: (id: string, date?: string) => void;
+  uncompleteChore: (id: string, date?: string) => void;
   exportData: () => string;
   importData: (jsonData: string) => void;
 }
@@ -53,36 +53,39 @@ export const useChoresStore = create<ChoresState>()(
         set((state) => ({
           chores: state.chores.filter((chore) => chore.id !== id),
         })),
-      completeChore: (id: string) =>
+      completeChore: (id: string, date?: string) =>
         set((state) => ({
           chores: state.chores.map((chore) => {
             if (chore.id === id) {
-              const today = new Date().toISOString().split("T")[0];
-              // 今日の記録が既にある場合は追加しない
-              const hasToday = chore.records.some(
-                (record) => record.date === today
+              const targetDate = date || new Date().toISOString().split("T")[0];
+              // 該当日付の記録が既にある場合は追加しない
+              const hasDate = chore.records.some(
+                (record) => record.date === targetDate
               );
-              if (hasToday) {
+              if (hasDate) {
                 return chore;
               }
               return {
                 ...chore,
-                records: [...chore.records, { date: today }],
+                records: [...chore.records, { date: targetDate }].sort(
+                  (a, b) =>
+                    new Date(a.date).getTime() - new Date(b.date).getTime()
+                ),
               };
             }
             return chore;
           }),
         })),
-      uncompleteChore: (id: string) =>
+      uncompleteChore: (id: string, date?: string) =>
         set((state) => ({
           chores: state.chores.map((chore) => {
             if (chore.id === id) {
-              const today = new Date().toISOString().split("T")[0];
-              // 今日の記録を削除
+              const targetDate = date || new Date().toISOString().split("T")[0];
+              // 該当日付の記録を削除
               return {
                 ...chore,
                 records: chore.records.filter(
-                  (record) => record.date !== today
+                  (record) => record.date !== targetDate
                 ),
               };
             }

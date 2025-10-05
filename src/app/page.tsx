@@ -1,95 +1,90 @@
-import Image from "next/image";
-import styles from "./page.module.css";
+"use client";
+
+import React, { useState } from "react";
+import {
+  Container,
+  Typography,
+  Box,
+  Fab,
+  AppBar,
+  Toolbar,
+} from "@mui/material";
+import { Add as AddIcon } from "@mui/icons-material";
+import { useChoresStore } from "../store/useChoresStore";
+import { ChoreCard } from "../components/ChoreCard";
+import { AddChoreModal } from "../components/AddChoreModal";
 
 export default function Home() {
-  return (
-    <div className={styles.page}>
-      <main className={styles.main}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol>
-          <li>
-            Get started by editing <code>src/app/page.tsx</code>.
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
+  const { chores, addChore, deleteChore, completeChore, uncompleteChore } =
+    useChoresStore();
+  const [modalOpen, setModalOpen] = useState(false);
 
-        <div className={styles.ctas}>
-          <a
-            className={styles.primary}
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className={styles.logo}
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-            className={styles.secondary}
-          >
-            Read our docs
-          </a>
-        </div>
-      </main>
-      <footer className={styles.footer}>
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
+  const handleAddChore = (name: string, color: string) => {
+    addChore(name, color);
+  };
+
+  return (
+    <>
+      <AppBar position="static" elevation={1}>
+        <Toolbar>
+          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+            家事一覧
+          </Typography>
+        </Toolbar>
+      </AppBar>
+
+      <Container maxWidth="md" sx={{ py: 3, pb: 10 }}>
+        <Box sx={{ mb: 3 }}>
+          {chores.length === 0 ? (
+            <Box
+              sx={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                justifyContent: "center",
+                minHeight: "50vh",
+                textAlign: "center",
+              }}
+            >
+              <Typography variant="h6" color="text.secondary" gutterBottom>
+                家事が登録されていません
+              </Typography>
+              <Typography variant="body2" color="text.secondary">
+                右下の + ボタンから家事を追加してください
+              </Typography>
+            </Box>
+          ) : (
+            chores.map((chore) => (
+              <ChoreCard
+                key={chore.id}
+                chore={chore}
+                onDelete={deleteChore}
+                onComplete={completeChore}
+                onUncomplete={uncompleteChore}
+              />
+            ))
+          )}
+        </Box>
+      </Container>
+
+      <Fab
+        color="primary"
+        aria-label="add"
+        sx={{
+          position: "fixed",
+          bottom: 24,
+          right: 24,
+        }}
+        onClick={() => setModalOpen(true)}
+      >
+        <AddIcon />
+      </Fab>
+
+      <AddChoreModal
+        open={modalOpen}
+        onClose={() => setModalOpen(false)}
+        onAdd={handleAddChore}
+      />
+    </>
   );
 }

@@ -15,9 +15,44 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
+const APP_NAME = "Chore App";
+const APP_DEFAULT_TITLE = "Chore App";
+const APP_TITLE_TEMPLATE = "%s - Chore App";
+const APP_DESCRIPTION = "家事の管理と実施記録アプリ";
+
 export const metadata: Metadata = {
-  title: "家事一覧アプリ",
-  description: "家事の管理と実施記録アプリ",
+  applicationName: APP_NAME,
+  title: {
+    default: APP_DEFAULT_TITLE,
+    template: APP_TITLE_TEMPLATE,
+  },
+  description: APP_DESCRIPTION,
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: "default",
+    title: APP_DEFAULT_TITLE,
+    // startUpImage: [],
+  },
+  formatDetection: {
+    telephone: false,
+  },
+  openGraph: {
+    type: "website",
+    siteName: APP_NAME,
+    title: {
+      default: APP_DEFAULT_TITLE,
+      template: APP_TITLE_TEMPLATE,
+    },
+    description: APP_DESCRIPTION,
+  },
+  twitter: {
+    card: "summary",
+    title: {
+      default: APP_DEFAULT_TITLE,
+      template: APP_TITLE_TEMPLATE,
+    },
+    description: APP_DESCRIPTION,
+  },
 };
 
 export default function RootLayout({

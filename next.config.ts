@@ -9,4 +9,9 @@ const withSerwist = withSerwistInit({
 
 export default withSerwist({
   // Your Next.js config
+  output: "export",
+  basePath: process.env.NODE_ENV === "production" ? "/chore-app" : "",
+  images: {
+    unoptimized: true,
+  },
 });

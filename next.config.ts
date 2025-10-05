@@ -14,4 +14,5 @@ export default withSerwist({
   images: {
     unoptimized: true,
   },
+  trailingSlash: true,
 });

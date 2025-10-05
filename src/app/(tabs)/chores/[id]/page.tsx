@@ -23,10 +23,6 @@ import { DeleteConfirmModal } from "@/components/DeleteConfirmModal";
 import { EditChoreModal } from "@/components/EditChoreModal";
 import { ChoreCalendar } from "@/components/ChoreCalendar";
 
-export function generateStaticParams() {
-  return [];
-}
-
 export default function ChoreDetailPage() {
   const params = useParams();
   const router = useRouter();

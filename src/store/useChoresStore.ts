@@ -15,6 +15,7 @@ export interface Chore {
 interface ChoresState {
   chores: Chore[];
   addChore: (name: string, color: string) => void;
+  updateChore: (id: string, name: string, color: string) => void;
   deleteChore: (id: string) => void;
   completeChore: (id: string, date?: string) => void;
   uncompleteChore: (id: string, date?: string) => void;
@@ -48,6 +49,12 @@ export const useChoresStore = create<ChoresState>()(
               records: [],
             },
           ],
+        })),
+      updateChore: (id: string, name: string, color: string) =>
+        set((state) => ({
+          chores: state.chores.map((chore) =>
+            chore.id === id ? { ...chore, name, color } : chore
+          ),
         })),
       deleteChore: (id: string) =>
         set((state) => ({

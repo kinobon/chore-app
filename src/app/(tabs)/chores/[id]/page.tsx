@@ -20,14 +20,16 @@ import {
 } from "@mui/icons-material";
 import { useChoresStore } from "@/store/useChoresStore";
 import { DeleteConfirmModal } from "@/components/DeleteConfirmModal";
+import { EditChoreModal } from "@/components/EditChoreModal";
 import { ChoreCalendar } from "@/components/ChoreCalendar";
 
 export default function ChoreDetailPage() {
   const params = useParams();
   const router = useRouter();
   const id = params.id as string;
-  const { chores, deleteChore } = useChoresStore();
+  const { chores, deleteChore, updateChore } = useChoresStore();
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
+  const [editModalOpen, setEditModalOpen] = useState(false);
 
   const chore = chores.find((c) => c.id === id);
 
@@ -61,6 +63,10 @@ export default function ChoreDetailPage() {
     router.push("/chores");
   };
 
+  const handleEditSave = (name: string, color: string) => {
+    updateChore(id, name, color);
+  };
+
   return (
     <>
       <AppBar position="static" elevation={1}>
@@ -75,12 +81,6 @@ export default function ChoreDetailPage() {
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             家事詳細
           </Typography>
-          <IconButton color="inherit">
-            <EditIcon />
-          </IconButton>
-          <IconButton color="inherit" onClick={() => setDeleteModalOpen(true)}>
-            <DeleteIcon />
-          </IconButton>
         </Toolbar>
       </AppBar>
 
@@ -97,7 +97,23 @@ export default function ChoreDetailPage() {
                   mr: 2,
                 }}
               />
-              <Typography variant="h5">{chore.name}</Typography>
+              <Typography variant="h5" sx={{ flexGrow: 1 }}>
+                {chore.name}
+              </Typography>
+              <IconButton
+                color="primary"
+                onClick={() => setEditModalOpen(true)}
+                size="large"
+              >
+                <EditIcon />
+              </IconButton>
+              <IconButton
+                color="error"
+                onClick={() => setDeleteModalOpen(true)}
+                size="large"
+              >
+                <DeleteIcon />
+              </IconButton>
             </Box>
             <Typography variant="body2" color="text.secondary">
               前回実施日:{" "}
@@ -131,6 +147,14 @@ export default function ChoreDetailPage() {
         choreName={chore.name}
         onClose={() => setDeleteModalOpen(false)}
         onConfirm={handleDelete}
+      />
+
+      <EditChoreModal
+        open={editModalOpen}
+        choreName={chore.name}
+        choreColor={chore.color}
+        onClose={() => setEditModalOpen(false)}
+        onSave={handleEditSave}
       />
     </>
   );

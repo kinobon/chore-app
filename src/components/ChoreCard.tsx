@@ -13,15 +13,18 @@ import {
 import {
   Delete as DeleteIcon,
   CheckCircle as CheckCircleIcon,
+  Edit as EditIcon,
 } from "@mui/icons-material";
 import { Chore } from "../store/useChoresStore";
 import { DeleteConfirmModal } from "./DeleteConfirmModal";
+import { EditChoreModal } from "./EditChoreModal";
 
 interface ChoreCardProps {
   chore: Chore;
   onDelete: (id: string) => void;
   onComplete: (id: string) => void;
   onUncomplete: (id: string) => void;
+  onUpdate: (id: string, name: string, color: string) => void;
 }
 
 export const ChoreCard: React.FC<ChoreCardProps> = ({
@@ -29,8 +32,10 @@ export const ChoreCard: React.FC<ChoreCardProps> = ({
   onDelete,
   onComplete,
   onUncomplete,
+  onUpdate,
 }) => {
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
+  const [editModalOpen, setEditModalOpen] = useState(false);
   const router = useRouter();
   const formatDate = (records: { date: string }[]) => {
     if (records.length === 0) return "未実施";
@@ -65,6 +70,14 @@ export const ChoreCard: React.FC<ChoreCardProps> = ({
   const handleDeleteConfirm = () => {
     onDelete(chore.id);
     setDeleteModalOpen(false);
+  };
+
+  const handleEditClick = () => {
+    setEditModalOpen(true);
+  };
+
+  const handleEditSave = (name: string, color: string) => {
+    onUpdate(chore.id, name, color);
   };
 
   const handleCardClick = (e: React.MouseEvent) => {
@@ -134,6 +147,13 @@ export const ChoreCard: React.FC<ChoreCardProps> = ({
                 {isCompletedToday() ? "完了済み" : "今日実施"}
               </Button>
               <IconButton
+                onClick={handleEditClick}
+                color="primary"
+                size="small"
+              >
+                <EditIcon />
+              </IconButton>
+              <IconButton
                 onClick={handleDeleteClick}
                 color="error"
                 size="small"
@@ -150,6 +170,14 @@ export const ChoreCard: React.FC<ChoreCardProps> = ({
         choreName={chore.name}
         onClose={() => setDeleteModalOpen(false)}
         onConfirm={handleDeleteConfirm}
+      />
+
+      <EditChoreModal
+        open={editModalOpen}
+        choreName={chore.name}
+        choreColor={chore.color}
+        onClose={() => setEditModalOpen(false)}
+        onSave={handleEditSave}
       />
     </>
   );

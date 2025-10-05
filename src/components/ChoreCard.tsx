@@ -21,18 +21,14 @@ import { EditChoreModal } from "./EditChoreModal";
 
 interface ChoreCardProps {
   chore: Chore;
-  onDelete: (id: string) => void;
   onComplete: (id: string) => void;
   onUncomplete: (id: string) => void;
-  onUpdate: (id: string, name: string, color: string) => void;
 }
 
 export const ChoreCard: React.FC<ChoreCardProps> = ({
   chore,
-  onDelete,
   onComplete,
   onUncomplete,
-  onUpdate,
 }) => {
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const [editModalOpen, setEditModalOpen] = useState(false);
@@ -63,23 +59,6 @@ export const ChoreCard: React.FC<ChoreCardProps> = ({
     }
   };
 
-  const handleDeleteClick = () => {
-    setDeleteModalOpen(true);
-  };
-
-  const handleDeleteConfirm = () => {
-    onDelete(chore.id);
-    setDeleteModalOpen(false);
-  };
-
-  const handleEditClick = () => {
-    setEditModalOpen(true);
-  };
-
-  const handleEditSave = (name: string, color: string) => {
-    onUpdate(chore.id, name, color);
-  };
-
   const handleCardClick = (e: React.MouseEvent) => {
     // ボタンやアイコンクリックの場合は無視
     const target = e.target as HTMLElement;
@@ -100,7 +79,7 @@ export const ChoreCard: React.FC<ChoreCardProps> = ({
             sx={{
               display: "flex",
               justifyContent: "space-between",
-              alignItems: "flex-start",
+              alignItems: "center",
             }}
           >
             <Box sx={{ display: "flex", alignItems: "center", flex: 1 }}>
@@ -125,60 +104,31 @@ export const ChoreCard: React.FC<ChoreCardProps> = ({
             </Box>
             <Box sx={{ display: "flex", gap: 1, alignItems: "center" }}>
               <Button
-                variant={isCompletedToday() ? "outlined" : "contained"}
+                variant={isCompletedToday() ? "contained" : "outlined"}
                 startIcon={<CheckCircleIcon />}
                 onClick={handleButtonClick}
-                size="small"
-                color={isCompletedToday() ? "success" : "inherit"}
+                size="large"
+                color="success"
                 sx={{
                   backgroundColor: isCompletedToday()
-                    ? "transparent"
-                    : "#9e9e9e",
-                  color: isCompletedToday() ? "#2e7d32" : "white",
-                  borderColor: isCompletedToday() ? "#2e7d32" : "transparent",
+                    ? "#4caf50"
+                    : "transparent",
+                  color: isCompletedToday() ? "white" : "#2e7d32",
+                  borderColor: "#2e7d32",
                   "&:hover": {
                     backgroundColor: isCompletedToday()
-                      ? "rgba(46, 125, 50, 0.04)"
-                      : "#757575",
-                    borderColor: isCompletedToday() ? "#2e7d32" : "transparent",
+                      ? "#388e3c"
+                      : "rgba(46, 125, 50, 0.04)",
+                    borderColor: "#2e7d32",
                   },
                 }}
               >
                 {isCompletedToday() ? "完了済み" : "今日実施"}
               </Button>
-              <IconButton
-                onClick={handleEditClick}
-                color="primary"
-                size="small"
-              >
-                <EditIcon />
-              </IconButton>
-              <IconButton
-                onClick={handleDeleteClick}
-                color="error"
-                size="small"
-              >
-                <DeleteIcon />
-              </IconButton>
             </Box>
           </Box>
         </CardContent>
       </Card>
-
-      <DeleteConfirmModal
-        open={deleteModalOpen}
-        choreName={chore.name}
-        onClose={() => setDeleteModalOpen(false)}
-        onConfirm={handleDeleteConfirm}
-      />
-
-      <EditChoreModal
-        open={editModalOpen}
-        choreName={chore.name}
-        choreColor={chore.color}
-        onClose={() => setEditModalOpen(false)}
-        onSave={handleEditSave}
-      />
     </>
   );
 };

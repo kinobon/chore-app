@@ -15,14 +15,7 @@ import { ChoreCard } from "@/components/ChoreCard";
 import { AddChoreModal } from "@/components/AddChoreModal";
 
 export default function ChoresPage() {
-  const {
-    chores,
-    addChore,
-    updateChore,
-    deleteChore,
-    completeChore,
-    uncompleteChore,
-  } = useChoresStore();
+  const { chores, addChore, completeChore, uncompleteChore } = useChoresStore();
   const [modalOpen, setModalOpen] = useState(false);
 
   const handleAddChore = (name: string, color: string) => {
@@ -81,10 +74,8 @@ export default function ChoresPage() {
               <ChoreCard
                 key={chore.id}
                 chore={chore}
-                onDelete={deleteChore}
                 onComplete={completeChore}
                 onUncomplete={uncompleteChore}
-                onUpdate={updateChore}
               />
             ))
           )}

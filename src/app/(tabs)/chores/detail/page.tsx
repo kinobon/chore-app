@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import {
   Container,
@@ -23,7 +23,7 @@ import { DeleteConfirmModal } from "@/components/DeleteConfirmModal";
 import { EditChoreModal } from "@/components/EditChoreModal";
 import { ChoreCalendar } from "@/components/ChoreCalendar";
 
-export default function ChoreDetailPage() {
+function ChoreDetailContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const id = searchParams.get("id");
@@ -165,5 +165,13 @@ export default function ChoreDetailPage() {
         onSave={handleEditSave}
       />
     </>
+  );
+}
+
+export default function ChoreDetailPage() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <ChoreDetailContent />
+    </Suspense>
   );
 }

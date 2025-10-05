@@ -1,6 +1,7 @@
 {
-  "name": "Chore App",
-  "short_name": "Chore App",
+  "name": "家事管理アプリ",
+  "short_name": "家事管理",
+  "description": "家事の管理と記録を行うWebアプリケーション",
   "icons": [
     {
       "src": "/icons/android-chrome-192x192.png",
@@ -14,9 +15,10 @@
       "type": "image/png"
     }
   ],
-  "theme_color": "#FFFFFF",
+  "theme_color": "#4caf50",
   "background_color": "#FFFFFF",
-  "start_url": "/",
+  "start_url": "/chore-app/",
+  "scope": "/chore-app/",
   "display": "standalone",
   "orientation": "portrait"
 }

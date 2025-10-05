@@ -15,9 +15,9 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-const APP_NAME = "Chore App";
-const APP_DEFAULT_TITLE = "Chore App";
-const APP_TITLE_TEMPLATE = "%s - Chore App";
+const APP_NAME = "家事管理アプリ";
+const APP_DEFAULT_TITLE = "家事管理アプリ";
+const APP_TITLE_TEMPLATE = "%s - 家事管理アプリ";
 const APP_DESCRIPTION = "家事の管理と実施記録アプリ";
 
 export const metadata: Metadata = {
@@ -27,6 +27,7 @@ export const metadata: Metadata = {
     template: APP_TITLE_TEMPLATE,
   },
   description: APP_DESCRIPTION,
+  manifest: "/manifest.json",
   appleWebApp: {
     capable: true,
     statusBarStyle: "default",

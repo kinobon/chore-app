@@ -23,3 +23,22 @@ const serwist = new Serwist({
 });
 
 serwist.addEventListeners();
+
+// クライアントサイドルーティングのサポート
+// オフライン時に動的ルートにアクセスした場合、index.htmlを返す
+self.addEventListener("fetch", (event) => {
+  const { request } = event;
+  const url = new URL(request.url);
+
+  // ナビゲーションリクエスト（ページ遷移）の場合
+  if (request.mode === "navigate") {
+    // 動的ルート（/chores/detail など）へのアクセスを index.html にフォールバック
+    event.respondWith(
+      fetch(request).catch(() => {
+        return caches.match("/index.html").then((response) => {
+          return response || fetch("/index.html");
+        });
+      })
+    );
+  }
+});

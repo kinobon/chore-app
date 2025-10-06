@@ -26,6 +26,12 @@ export const CalendarView: React.FC = () => {
     setCurrentDate(new Date(year, month + 1, 1));
   };
 
+  const goToToday = () => {
+    const today = new Date();
+    setCurrentDate(today);
+    setSelectedDate(today.toISOString().split("T")[0]);
+  };
+
   const hasRecordsForDate = (day: number) => {
     const dateStr = `${year}-${String(month + 1).padStart(2, "0")}-${String(
       day
@@ -87,17 +93,30 @@ export const CalendarView: React.FC = () => {
             <button
               onClick={prevMonth}
               className="p-2 hover:bg-gray-100 rounded-full transition-colors"
+              aria-label="前月"
             >
               <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
                 <path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z" />
               </svg>
             </button>
-            <h3 className="text-lg font-semibold">
-              {year}年{month + 1}月
-            </h3>
+            
+            <div className="flex items-center gap-3">
+              <h3 className="text-lg font-semibold">
+                {year}年{month + 1}月
+              </h3>
+              <button
+                onClick={goToToday}
+                className="px-3 py-1 text-sm font-medium text-primary hover:bg-primary hover:text-white rounded-full transition-colors border border-primary"
+                aria-label="今日に戻る"
+              >
+                今日
+              </button>
+            </div>
+
             <button
               onClick={nextMonth}
               className="p-2 hover:bg-gray-100 rounded-full transition-colors"
+              aria-label="次月"
             >
               <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
                 <path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z" />

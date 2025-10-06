@@ -16,7 +16,7 @@ export default defineConfig({
       registerType: "autoUpdate",
       injectRegister: "auto",
       devOptions: {
-        enabled: true
+        enabled: true,
       },
       manifest: {
         name: "家事管理アプリ",
@@ -33,36 +33,36 @@ export default defineConfig({
             src: "/chore-app/manifest-icon-192.maskable.png",
             sizes: "192x192",
             type: "image/png",
-            purpose: "any"
+            purpose: "any",
           },
           {
             src: "/chore-app/manifest-icon-192.maskable.png",
             sizes: "192x192",
             type: "image/png",
-            purpose: "maskable"
+            purpose: "maskable",
           },
           {
             src: "/chore-app/manifest-icon-512.maskable.png",
             sizes: "512x512",
             type: "image/png",
-            purpose: "any"
+            purpose: "any",
           },
           {
             src: "/chore-app/manifest-icon-512.maskable.png",
             sizes: "512x512",
             type: "image/png",
-            purpose: "maskable"
+            purpose: "maskable",
           },
           {
             src: "/chore-app/apple-icon-180.png",
             sizes: "180x180",
-            type: "image/png"
+            type: "image/png",
           },
           {
             src: "/chore-app/favicon-196.png",
             sizes: "196x196",
-            type: "image/png"
-          }
+            type: "image/png",
+          },
         ],
       },
       includeAssets: [
@@ -71,7 +71,7 @@ export default defineConfig({
         "favicon-196.png",
         "manifest-icon-192.maskable.png",
         "manifest-icon-512.maskable.png",
-        "apple-splash-*.jpg"
+        "apple-splash-*.jpg",
       ],
       workbox: {
         globPatterns: ["**/*.{js,css,html,ico,png,svg,jpg}"],
@@ -83,14 +83,14 @@ export default defineConfig({
               cacheName: "google-fonts-cache",
               expiration: {
                 maxEntries: 10,
-                maxAgeSeconds: 60 * 60 * 24 * 365 // 1年
+                maxAgeSeconds: 60 * 60 * 24 * 365, // 1年
               },
               cacheableResponse: {
-                statuses: [0, 200]
-              }
-            }
-          }
-        ]
+                statuses: [0, 200],
+              },
+            },
+          },
+        ],
       },
     }),
   ],

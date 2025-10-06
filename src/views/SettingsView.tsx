@@ -259,7 +259,7 @@ export const SettingsView: React.FC = () => {
                 className="w-full"
                 onClick={(e) => {
                   e.preventDefault();
-                  document.getElementById('file-upload')?.click();
+                  document.getElementById("file-upload")?.click();
                 }}
               >
                 ファイルを選択

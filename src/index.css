@@ -83,3 +83,52 @@ textarea,
     background: rgba(0, 0, 0, 0.4);
   }
 }
+
+/* ページ遷移アニメーション */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes slideInRight {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slideOutLeft {
+  from {
+    transform: translateX(0);
+    opacity: 1;
+  }
+  to {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+}
+
+.view-enter {
+  animation: fadeIn 0.2s ease-in-out;
+}
+
+.view-exit {
+  animation: fadeOut 0.15s ease-in-out;
+}

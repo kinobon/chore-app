@@ -8,6 +8,7 @@ interface ChoreCardProps {
   onComplete: (id: string) => void;
   onUncomplete: (id: string) => void;
   onClick: (id: string) => void;
+  className?: string;
 }
 
 export const ChoreCard: React.FC<ChoreCardProps> = ({
@@ -15,6 +16,7 @@ export const ChoreCard: React.FC<ChoreCardProps> = ({
   onComplete,
   onUncomplete,
   onClick,
+  className = "",
 }) => {
   const formatDate = (records: { date: string }[]) => {
     if (records.length === 0) return "未実施";
@@ -39,7 +41,7 @@ export const ChoreCard: React.FC<ChoreCardProps> = ({
   };
 
   return (
-    <Card onClick={() => onClick(chore.id)} className="mb-4">
+    <Card onClick={() => onClick(chore.id)} className={`mb-4 ${className}`}>
       <div className="p-4">
         <div className="flex items-center justify-between">
           <div className="flex items-center flex-1">

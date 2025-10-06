@@ -11,7 +11,7 @@ import type { View } from "./store/useUIStore";
 const viewOrder: View[] = ["chores", "calendar", "settings"];
 
 function App() {
-  const { currentView, setView } = useUIStore();
+  const { currentView, setView, isEditMode, toggleEditMode } = useUIStore();
   const [isTransitioning, setIsTransitioning] = useState(false);
   const [displayView, setDisplayView] = useState(currentView);
   const [direction, setDirection] = useState<"forward" | "backward">("forward");
@@ -20,15 +20,19 @@ function App() {
   const getHeaderConfig = (view: View) => {
     switch (view) {
       case "chores":
-        return { title: "家事一覧", showBack: false };
+        return {
+          title: isEditMode ? "家事を編集" : "家事一覧",
+          showBack: false,
+          showEdit: true,
+        };
       case "calendar":
-        return { title: "カレンダー", showBack: false };
+        return { title: "カレンダー", showBack: false, showEdit: false };
       case "settings":
-        return { title: "設定", showBack: false };
+        return { title: "設定", showBack: false, showEdit: false };
       case "detail":
-        return { title: "家事詳細", showBack: true };
+        return { title: "家事詳細", showBack: true, showEdit: false };
       default:
-        return { title: "", showBack: false };
+        return { title: "", showBack: false, showEdit: false };
     }
   };
 
@@ -70,6 +74,20 @@ function App() {
         onLeftClick={
           headerConfig.showBack ? () => setView("chores") : undefined
         }
+        rightIcon={
+          headerConfig.showEdit ? (
+            isEditMode ? (
+              <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z" />
+              </svg>
+            ) : (
+              <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z" />
+              </svg>
+            )
+          ) : undefined
+        }
+        onRightClick={headerConfig.showEdit ? toggleEditMode : undefined}
       />
 
       {/* コンテンツエリア */}

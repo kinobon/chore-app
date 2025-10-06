@@ -17,6 +17,8 @@ interface ChoresState {
   addChore: (name: string, color: string) => void;
   updateChore: (id: string, name: string, color: string) => void;
   deleteChore: (id: string) => void;
+  deleteChores: (ids: string[]) => void;
+  reorderChores: (newOrder: Chore[]) => void;
   completeChore: (id: string, date?: string) => void;
   uncompleteChore: (id: string, date?: string) => void;
   exportData: () => string;
@@ -49,6 +51,11 @@ export const useChoresStore = create<ChoresState>()(
         set((state) => ({
           chores: state.chores.filter((chore) => chore.id !== id),
         })),
+      deleteChores: (ids: string[]) =>
+        set((state) => ({
+          chores: state.chores.filter((chore) => !ids.includes(chore.id)),
+        })),
+      reorderChores: (newOrder: Chore[]) => set({ chores: newOrder }),
       completeChore: (id: string, date?: string) =>
         set((state) => ({
           chores: state.chores.map((chore) => {

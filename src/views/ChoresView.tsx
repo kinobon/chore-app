@@ -3,7 +3,7 @@ import { FAB } from "../components/ui/FAB";
 import { ChoreCard } from "../components/ChoreCard";
 import { AddChoreModal } from "../components/AddChoreModal";
 import { EditChoreModal } from "../components/EditChoreModal";
-import { ContextMenu } from "../components/ui/ContextMenu";
+import { BottomSheet } from "../components/ui/BottomSheet";
 import { useChoresStore } from "@/store/useChoresStore";
 import { useUIStore } from "@/store/useUIStore";
 import type { Chore } from "@/store/useChoresStore";
@@ -28,10 +28,7 @@ export const ChoresView: React.FC = () => {
   } = useUIStore();
   const [modalOpen, setModalOpen] = useState(false);
   const [editModalOpen, setEditModalOpen] = useState(false);
-  const [contextMenuOpen, setContextMenuOpen] = useState(false);
-  const [contextMenuPosition, setContextMenuPosition] = useState<
-    { x: number; y: number } | undefined
-  >();
+  const [bottomSheetOpen, setBottomSheetOpen] = useState(false);
   const [selectedChore, setSelectedChore] = useState<Chore | null>(null);
 
   const handleAddChore = (name: string, color: string) => {
@@ -82,17 +79,12 @@ export const ChoresView: React.FC = () => {
     reorderChores(newChores);
   };
 
-  const handleLongPress = (
-    choreId: string,
-    position: { x: number; y: number }
-  ) => {
+  const handleLongPress = (choreId: string) => {
     if (isEditMode) return; // 編集モード時は無効
     const chore = chores.find((c) => c.id === choreId);
     if (chore) {
       setSelectedChore(chore);
-      // タッチ位置を記録
-      setContextMenuPosition(position);
-      setContextMenuOpen(true);
+      setBottomSheetOpen(true);
     }
   };
 
@@ -219,15 +211,15 @@ export const ChoresView: React.FC = () => {
         onAdd={handleAddChore}
       />
 
-      <ContextMenu
-        isOpen={contextMenuOpen}
-        onClose={() => setContextMenuOpen(false)}
-        position={contextMenuPosition}
+      <BottomSheet
+        isOpen={bottomSheetOpen}
+        onClose={() => setBottomSheetOpen(false)}
+        title={selectedChore?.name}
         actions={[
           {
             label: "編集",
             icon: (
-              <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+              <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
                 <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z" />
               </svg>
             ),
@@ -236,7 +228,7 @@ export const ChoresView: React.FC = () => {
           {
             label: "削除",
             icon: (
-              <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+              <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
                 <path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z" />
               </svg>
             ),

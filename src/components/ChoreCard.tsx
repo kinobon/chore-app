@@ -8,7 +8,7 @@ interface ChoreCardProps {
   onComplete: (id: string) => void;
   onUncomplete: (id: string) => void;
   onClick: (id: string) => void;
-  onLongPress?: (id: string, position: { x: number; y: number }) => void;
+  onLongPress?: (id: string) => void;
   className?: string;
 }
 
@@ -46,13 +46,11 @@ export const ChoreCard: React.FC<ChoreCardProps> = ({
     }
   };
 
-  const handleTouchStart = (e: React.TouchEvent) => {
+  const handleTouchStart = () => {
     if (!onLongPress) return;
-    const touch = e.touches[0];
-    const position = { x: touch.clientX, y: touch.clientY };
 
     const timer = setTimeout(() => {
-      onLongPress(chore.id, position);
+      onLongPress(chore.id);
     }, 500); // 500msで長押し判定
     setLongPressTimer(timer);
   };
@@ -64,12 +62,11 @@ export const ChoreCard: React.FC<ChoreCardProps> = ({
     }
   };
 
-  const handleMouseDown = (e: React.MouseEvent) => {
+  const handleMouseDown = () => {
     if (!onLongPress) return;
-    const position = { x: e.clientX, y: e.clientY };
 
     const timer = setTimeout(() => {
-      onLongPress(chore.id, position);
+      onLongPress(chore.id);
     }, 500);
     setLongPressTimer(timer);
   };

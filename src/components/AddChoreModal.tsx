@@ -1,21 +1,10 @@
-"use client";
-
 import React, { useState } from "react";
-import {
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  DialogActions,
-  TextField,
-  Button,
-  Box,
-  Typography,
-  IconButton,
-} from "@mui/material";
-import { Close as CloseIcon, Check as CheckIcon } from "@mui/icons-material";
+import { Modal } from "./ui/Modal";
+import { Input } from "./ui/Input";
+import { Button } from "./ui/Button";
 
 interface AddChoreModalProps {
-  open: boolean;
+  isOpen: boolean;
   onClose: () => void;
   onAdd: (name: string, color: string) => void;
 }
@@ -30,7 +19,7 @@ const colorOptions = [
 ];
 
 export const AddChoreModal: React.FC<AddChoreModalProps> = ({
-  open,
+  isOpen,
   onClose,
   onAdd,
 }) => {
@@ -53,93 +42,68 @@ export const AddChoreModal: React.FC<AddChoreModalProps> = ({
   };
 
   return (
-    <Dialog open={open} onClose={handleClose} maxWidth="sm" fullWidth>
-      <DialogTitle
-        sx={{
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-        }}
-      >
-        新しい家事を追加
-        <IconButton onClick={handleClose} size="small">
-          <CloseIcon />
-        </IconButton>
-      </DialogTitle>
-      <DialogContent>
-        <Box sx={{ mb: 3 }}>
-          <Typography variant="subtitle1" gutterBottom>
-            家事名
-          </Typography>
-          <TextField
-            autoFocus
-            placeholder="例: トイレ掃除"
-            fullWidth
-            variant="outlined"
-            value={choreName}
-            onChange={(e) => setChoreName(e.target.value)}
-            onKeyPress={(e) => {
-              if (e.key === "Enter") {
-                handleAdd();
-              }
-            }}
-          />
-        </Box>
+    <Modal
+      isOpen={isOpen}
+      onClose={handleClose}
+      title="新しい家事を追加"
+      footer={
+        <div className="flex justify-end gap-2">
+          <Button variant="secondary" onClick={handleClose}>
+            キャンセル
+          </Button>
+          <Button
+            variant="primary"
+            onClick={handleAdd}
+            disabled={!choreName.trim()}
+          >
+            追加
+          </Button>
+        </div>
+      }
+    >
+      <div className="space-y-4">
+        <Input
+          label="家事名"
+          placeholder="例: トイレ掃除"
+          value={choreName}
+          onChange={(e) => setChoreName(e.target.value)}
+          onKeyPress={(e) => {
+            if (e.key === "Enter") {
+              handleAdd();
+            }
+          }}
+        />
 
-        <Box>
-          <Typography variant="subtitle1" gutterBottom>
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-2">
             色を選択
-          </Typography>
-          <Box sx={{ display: "flex", gap: 1, flexWrap: "wrap" }}>
+          </label>
+          <div className="flex gap-2 flex-wrap">
             {colorOptions.map((color) => (
-              <Box
+              <button
                 key={color}
                 onClick={() => setSelectedColor(color)}
-                sx={{
-                  width: 48,
-                  height: 48,
-                  borderRadius: "50%",
-                  backgroundColor: color,
-                  cursor: "pointer",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  border:
-                    selectedColor === color
-                      ? "3px solid #000"
-                      : "2px solid transparent",
-                  transition: "border 0.2s ease",
-                  "&:hover": {
-                    transform: "scale(1.1)",
-                  },
-                }}
+                className={`w-12 h-12 rounded-full transition-transform hover:scale-110 ${
+                  selectedColor === color
+                    ? "ring-4 ring-black ring-offset-2"
+                    : ""
+                }`}
+                style={{ backgroundColor: color }}
               >
                 {selectedColor === color && (
-                  <CheckIcon sx={{ color: "white", fontSize: 20 }} />
+                  <svg
+                    className="w-6 h-6 text-white mx-auto"
+                    fill="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
+                  </svg>
                 )}
-              </Box>
+              </button>
             ))}
-          </Box>
-        </Box>
-      </DialogContent>
-      <DialogActions sx={{ px: 3, pb: 3 }}>
-        <Button
-          onClick={handleClose}
-          color="inherit"
-          variant="outlined"
-          sx={{ mr: 1 }}
-        >
-          キャンセル
-        </Button>
-        <Button
-          onClick={handleAdd}
-          variant="contained"
-          disabled={!choreName.trim()}
-          sx={{ minWidth: 80 }}
-        >
-          追加
-        </Button>
-      </DialogActions>
-    </Dialog>
+          </div>
+        </div>
+      </div>
+    </Modal>
   );
 };

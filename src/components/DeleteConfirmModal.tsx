@@ -1,55 +1,40 @@
-"use client";
-
 import React from "react";
-import {
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  DialogActions,
-  Button,
-  Typography,
-} from "@mui/material";
+import { Modal } from "./ui/Modal";
+import { Button } from "./ui/Button";
 
 interface DeleteConfirmModalProps {
-  open: boolean;
+  isOpen: boolean;
   choreName: string;
   onClose: () => void;
   onConfirm: () => void;
 }
 
 export const DeleteConfirmModal: React.FC<DeleteConfirmModalProps> = ({
-  open,
+  isOpen,
   choreName,
   onClose,
   onConfirm,
 }) => {
   return (
-    <Dialog open={open} onClose={onClose} maxWidth="sm" fullWidth>
-      <DialogTitle>家事を削除</DialogTitle>
-      <DialogContent>
-        <Typography>「{choreName}」を削除しますか？</Typography>
-        <Typography variant="body2" color="text.secondary" sx={{ mt: 1 }}>
-          記録も全て削除されます。
-        </Typography>
-      </DialogContent>
-      <DialogActions sx={{ px: 3, pb: 3 }}>
-        <Button
-          onClick={onClose}
-          color="inherit"
-          variant="outlined"
-          sx={{ mr: 1 }}
-        >
-          キャンセル
-        </Button>
-        <Button
-          onClick={onConfirm}
-          variant="contained"
-          color="error"
-          sx={{ minWidth: 80 }}
-        >
-          削除
-        </Button>
-      </DialogActions>
-    </Dialog>
+    <Modal
+      isOpen={isOpen}
+      onClose={onClose}
+      title="家事を削除"
+      footer={
+        <div className="flex justify-end gap-2">
+          <Button variant="secondary" onClick={onClose}>
+            キャンセル
+          </Button>
+          <Button variant="error" onClick={onConfirm}>
+            削除
+          </Button>
+        </div>
+      }
+    >
+      <div className="space-y-2">
+        <p className="text-gray-800">「{choreName}」を削除しますか？</p>
+        <p className="text-sm text-gray-500">記録も全て削除されます。</p>
+      </div>
+    </Modal>
   );
 };

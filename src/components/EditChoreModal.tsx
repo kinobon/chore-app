@@ -1,18 +1,18 @@
-"use client";
+import React, { useState, useEffect } from "react";
+import { Modal } from "./ui/Modal";
+import { Input } from "./ui/Input";
+import { Button } from "./ui/Button";
 
-import React, { useState } from "react";
-import {
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  DialogActions,
-  TextField,
-  Button,
-  Box,
-} from "@mui/material";
+interface EditChoreModalProps {
+  isOpen: boolean;
+  choreName: string;
+  choreColor: string;
+  onClose: () => void;
+  onSave: (name: string, color: string) => void;
+}
 
 const colors = [
-  "#4CAF50",
+  "#4caf50",
   "#2196f3",
   "#ff9800",
   "#9c27b0",
@@ -20,16 +20,8 @@ const colors = [
   "#00bcd4",
 ];
 
-interface EditChoreModalProps {
-  open: boolean;
-  choreName: string;
-  choreColor: string;
-  onClose: () => void;
-  onSave: (name: string, color: string) => void;
-}
-
 export const EditChoreModal: React.FC<EditChoreModalProps> = ({
-  open,
+  isOpen,
   choreName,
   choreColor,
   onClose,
@@ -38,13 +30,12 @@ export const EditChoreModal: React.FC<EditChoreModalProps> = ({
   const [name, setName] = useState(choreName);
   const [selectedColor, setSelectedColor] = useState(choreColor);
 
-  // モーダルが開いたときに初期値をリセット
-  React.useEffect(() => {
-    if (open) {
+  useEffect(() => {
+    if (isOpen) {
       setName(choreName);
       setSelectedColor(choreColor);
     }
-  }, [open, choreName, choreColor]);
+  }, [isOpen, choreName, choreColor]);
 
   const handleSave = () => {
     if (name.trim()) {
@@ -54,15 +45,28 @@ export const EditChoreModal: React.FC<EditChoreModalProps> = ({
   };
 
   return (
-    <Dialog open={open} onClose={onClose} maxWidth="xs" fullWidth>
-      <DialogTitle>家事を編集</DialogTitle>
-      <DialogContent>
-        <TextField
-          autoFocus
-          margin="dense"
+    <Modal
+      isOpen={isOpen}
+      onClose={onClose}
+      title="家事を編集"
+      footer={
+        <div className="flex justify-end gap-2">
+          <Button variant="secondary" onClick={onClose}>
+            キャンセル
+          </Button>
+          <Button
+            variant="primary"
+            onClick={handleSave}
+            disabled={!name.trim()}
+          >
+            保存
+          </Button>
+        </div>
+      }
+    >
+      <div className="space-y-4">
+        <Input
           label="家事名"
-          type="text"
-          fullWidth
           value={name}
           onChange={(e) => setName(e.target.value)}
           onKeyDown={(e) => {
@@ -71,45 +75,27 @@ export const EditChoreModal: React.FC<EditChoreModalProps> = ({
             }
           }}
         />
-        <Box sx={{ mt: 2 }}>
-          <Box sx={{ mb: 1, fontSize: "0.875rem", color: "text.secondary" }}>
+
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-2">
             色を選択
-          </Box>
-          <Box sx={{ display: "flex", gap: 1 }}>
+          </label>
+          <div className="flex gap-2">
             {colors.map((color) => (
-              <Box
+              <button
                 key={color}
                 onClick={() => setSelectedColor(color)}
-                sx={{
-                  width: 40,
-                  height: 40,
-                  backgroundColor: color,
-                  borderRadius: "50%",
-                  cursor: "pointer",
-                  border:
-                    selectedColor === color
-                      ? "3px solid #000"
-                      : "3px solid transparent",
-                  transition: "all 0.2s",
-                  "&:hover": {
-                    transform: "scale(1.1)",
-                  },
-                }}
+                className={`w-10 h-10 rounded-full transition-transform hover:scale-110 ${
+                  selectedColor === color
+                    ? "ring-4 ring-black ring-offset-2"
+                    : ""
+                }`}
+                style={{ backgroundColor: color }}
               />
             ))}
-          </Box>
-        </Box>
-      </DialogContent>
-      <DialogActions>
-        <Button onClick={onClose}>キャンセル</Button>
-        <Button
-          onClick={handleSave}
-          variant="contained"
-          disabled={!name.trim()}
-        >
-          保存
-        </Button>
-      </DialogActions>
-    </Dialog>
+          </div>
+        </div>
+      </div>
+    </Modal>
   );
 };

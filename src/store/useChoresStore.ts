@@ -54,7 +54,6 @@ export const useChoresStore = create<ChoresState>()(
           chores: state.chores.map((chore) => {
             if (chore.id === id) {
               const targetDate = date || new Date().toISOString().split("T")[0];
-              // 該当日付の記録が既にある場合は追加しない
               const hasDate = chore.records.some(
                 (record) => record.date === targetDate
               );
@@ -77,7 +76,6 @@ export const useChoresStore = create<ChoresState>()(
           chores: state.chores.map((chore) => {
             if (chore.id === id) {
               const targetDate = date || new Date().toISOString().split("T")[0];
-              // 該当日付の記録を削除
               return {
                 ...chore,
                 records: chore.records.filter(

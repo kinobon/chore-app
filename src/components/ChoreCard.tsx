@@ -1,34 +1,27 @@
-"use client";
-
 import React from "react";
-import { useRouter } from "next/navigation";
-import { Card, CardContent, Typography, Box, Button } from "@mui/material";
-import { CheckCircle as CheckCircleIcon } from "@mui/icons-material";
-import { Chore } from "../store/useChoresStore";
+import { Card } from "./ui/Card";
+import { Button } from "./ui/Button";
+import type { Chore } from "@/store/useChoresStore";
 
 interface ChoreCardProps {
   chore: Chore;
   onComplete: (id: string) => void;
   onUncomplete: (id: string) => void;
+  onClick: (id: string) => void;
 }
 
 export const ChoreCard: React.FC<ChoreCardProps> = ({
   chore,
   onComplete,
   onUncomplete,
+  onClick,
 }) => {
-  const router = useRouter();
   const formatDate = (records: { date: string }[]) => {
     if (records.length === 0) return "未実施";
-    // 最新の記録を取得
     const latestRecord = records.sort(
       (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
     )[0];
-    const date = new Date(latestRecord.date);
-    return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(
-      2,
-      "0"
-    )}-${String(date.getDate()).padStart(2, "0")}`;
+    return latestRecord.date;
   };
 
   const isCompletedToday = () => {
@@ -36,7 +29,8 @@ export const ChoreCard: React.FC<ChoreCardProps> = ({
     return chore.records.some((record) => record.date === today);
   };
 
-  const handleButtonClick = () => {
+  const handleButtonClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
     if (isCompletedToday()) {
       onUncomplete(chore.id);
     } else {
@@ -44,76 +38,59 @@ export const ChoreCard: React.FC<ChoreCardProps> = ({
     }
   };
 
-  const handleCardClick = (e: React.MouseEvent) => {
-    // ボタンやアイコンクリックの場合は無視
-    const target = e.target as HTMLElement;
-    if (target.closest("button") || target.closest('[role="button"]')) {
-      return;
-    }
-    router.push(`/chores/detail?id=${chore.id}`);
-  };
-
   return (
-    <>
-      <Card
-        sx={{ mb: 2, boxShadow: 2, cursor: "pointer" }}
-        onClick={handleCardClick}
-      >
-        <CardContent>
-          <Box
-            sx={{
-              display: "flex",
-              justifyContent: "space-between",
-              alignItems: "center",
-            }}
+    <Card onClick={() => onClick(chore.id)} className="mb-4">
+      <div className="p-4">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center flex-1">
+            <div
+              className="w-4 h-4 rounded-full mr-3 flex-shrink-0"
+              style={{ backgroundColor: chore.color }}
+            />
+            <div className="flex-1">
+              <h3 className="text-lg font-semibold mb-1">{chore.name}</h3>
+              <p className="text-sm text-gray-500">
+                前回実施日: {formatDate(chore.records)}
+              </p>
+            </div>
+          </div>
+          <Button
+            variant={isCompletedToday() ? "success" : "ghost"}
+            onClick={handleButtonClick}
+            className="ml-4"
           >
-            <Box sx={{ display: "flex", alignItems: "center", flex: 1 }}>
-              <Box
-                sx={{
-                  width: 16,
-                  height: 16,
-                  borderRadius: "50%",
-                  backgroundColor: chore.color,
-                  mr: 2,
-                  flexShrink: 0,
-                }}
-              />
-              <Box sx={{ flex: 1 }}>
-                <Typography variant="h6" component="h2" gutterBottom>
-                  {chore.name}
-                </Typography>
-                <Typography variant="body2" color="text.secondary">
-                  前回実施日: {formatDate(chore.records)}
-                </Typography>
-              </Box>
-            </Box>
-            <Box sx={{ display: "flex", gap: 1, alignItems: "center" }}>
-              <Button
-                variant={isCompletedToday() ? "contained" : "outlined"}
-                startIcon={<CheckCircleIcon />}
-                onClick={handleButtonClick}
-                size="large"
-                color="success"
-                sx={{
-                  backgroundColor: isCompletedToday()
-                    ? "#4caf50"
-                    : "transparent",
-                  color: isCompletedToday() ? "white" : "#2e7d32",
-                  borderColor: "#2e7d32",
-                  "&:hover": {
-                    backgroundColor: isCompletedToday()
-                      ? "#388e3c"
-                      : "rgba(46, 125, 50, 0.04)",
-                    borderColor: "#2e7d32",
-                  },
-                }}
-              >
-                {isCompletedToday() ? "完了済み" : "今日実施"}
-              </Button>
-            </Box>
-          </Box>
-        </CardContent>
-      </Card>
-    </>
+            {isCompletedToday() ? (
+              <span className="flex items-center">
+                <svg
+                  className="w-5 h-5 mr-1"
+                  fill="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
+                </svg>
+                完了済み
+              </span>
+            ) : (
+              <span className="flex items-center text-green-700">
+                <svg
+                  className="w-5 h-5 mr-1"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+                  />
+                </svg>
+                今日実施
+              </span>
+            )}
+          </Button>
+        </div>
+      </div>
+    </Card>
   );
 };

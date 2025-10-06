@@ -1,36 +1,85 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 家事管理アプリ
 
-## Getting Started
+家事の管理と実施記録を行うウェブアプリケーションです。
 
-First, run the development server:
+**Note: このプロジェクトはNext.jsからVite + Reactに移行されました。**  
+詳細は[README_JP.md](./README_JP.md)と[MIGRATION_SUMMARY.md](./MIGRATION_SUMMARY.md)を参照してください。
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
+## 特徴
+
+- 🚀 **Vite**: 高速な開発サーバーとビルド
+- ⚛️ **React 19**: 最新のReactを使用
+- 🎨 **Tailwind CSS**: ユーティリティファーストのCSSフレームワーク
+- 🗃️ **Zustand**: シンプルで軽量な状態管理
+- �� **PWA対応**: オフラインでも動作可能
+- 🎯 **単一ルート**: パスベースのルーティングなし、全てZustandで管理
+
+## セットアップ
+
+### 依存関係のインストール
+
+\`\`\`bash
+pnpm install
+\`\`\`
+
+### 開発サーバーの起動
+
+\`\`\`bash
 pnpm dev
-# or
-bun dev
-```
+\`\`\`
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+http://localhost:5173 でアプリが起動します。
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### ビルド
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+\`\`\`bash
+pnpm build
+\`\`\`
 
-## Learn More
+### プレビュー
 
-To learn more about Next.js, take a look at the following resources:
+\`\`\`bash
+pnpm preview
+\`\`\`
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 機能
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- ✅ 家事の登録・編集・削除
+- ✅ 日々の実施記録（チェックイン）
+- ✅ カレンダービューで実施状況の可視化
+- ✅ データのバックアップ・復元（JSON）
+- ✅ PWA対応（オフラインでも動作可能）
+- ✅ レスポンシブデザイン（モバイルフレンドリー）
 
-## Deploy on Vercel
+## 技術スタック
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- **フレームワーク**: Vite + React 19
+- **言語**: TypeScript
+- **スタイリング**: Tailwind CSS
+- **状態管理**: Zustand (with persist middleware)
+- **PWA**: vite-plugin-pwa
+- **パッケージマネージャー**: pnpm
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## プロジェクト構造
+
+\`\`\`
+src/
+├── components/          # 再利用可能なコンポーネント
+│   ├── ui/             # UIコンポーネント（Button, Modal, Card等）
+│   ├── ChoreCard.tsx
+│   ├── ChoreCalendar.tsx
+│   └── ...
+├── store/              # Zustandストア
+│   ├── useChoresStore.ts
+│   └── useUIStore.ts
+├── views/              # ビュー（ページ）コンポーネント
+│   ├── ChoresView.tsx
+│   ├── CalendarView.tsx
+│   ├── SettingsView.tsx
+│   └── ChoreDetailView.tsx
+└── App.tsx             # メインアプリコンポーネント
+\`\`\`
+
+## ライセンス
+
+MIT

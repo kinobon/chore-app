@@ -91,7 +91,7 @@ function App() {
       </div>
 
       {/* ボトムナビゲーション */}
-      {currentView !== "detail" && <BottomNav />}
+      <BottomNav />
     </div>
   );
 }

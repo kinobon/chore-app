@@ -2,10 +2,23 @@ import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import { VitePWA } from "vite-plugin-pwa";
 import path from "path";
+import { execSync } from "child_process";
+
+// コミットハッシュを取得
+const getCommitHash = () => {
+  try {
+    return execSync("git rev-parse --short HEAD").toString().trim();
+  } catch {
+    return "unknown";
+  }
+};
 
 // https://vite.dev/config/
 export default defineConfig({
   base: process.env.NODE_ENV === "production" ? "/chore-app/" : "/",
+  define: {
+    __COMMIT_HASH__: JSON.stringify(getCommitHash()),
+  },
   plugins: [
     react({
       babel: {

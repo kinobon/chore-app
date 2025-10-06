@@ -180,7 +180,9 @@ export const SettingsView: React.FC = () => {
             </div>
             <div className="p-4 flex justify-between">
               <div className="font-medium">バージョン</div>
-              <div className="text-gray-500">1.0.0</div>
+              <div className="text-gray-500 font-mono text-sm">
+                1.0.0-{__COMMIT_HASH__}
+              </div>
             </div>
           </Card>
         </div>

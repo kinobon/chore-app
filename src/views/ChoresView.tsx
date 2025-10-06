@@ -20,7 +20,7 @@ export const ChoresView: React.FC = () => {
   };
 
   return (
-    <div className="flex flex-col h-full">
+    <div className="flex flex-col h-full relative">
       <AppBar title="家事一覧" />
 
       <div className="flex-1 overflow-y-auto px-4 pt-4 pb-4">

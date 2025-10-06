@@ -9,7 +9,7 @@ export const FAB: React.FC<FABProps> = ({ onClick, icon }) => {
   return (
     <button
       onClick={onClick}
-      className="fixed bottom-20 right-6 w-14 h-14 bg-primary text-white rounded-full shadow-lg hover:bg-blue-700 transition-colors focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 z-30"
+      className="absolute bottom-6 right-6 w-14 h-14 bg-primary text-white rounded-full shadow-lg hover:bg-blue-700 transition-colors focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 z-30"
     >
       {icon || (
         <svg

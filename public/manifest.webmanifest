@@ -1,0 +1,47 @@
+{
+  "name": "家事管理アプリ",
+  "short_name": "家事管理",
+  "description": "家事の管理と実施記録アプリ",
+  "theme_color": "#2196f3",
+  "background_color": "#ffffff",
+  "display": "standalone",
+  "orientation": "portrait",
+  "start_url": "/chore-app/",
+  "scope": "/chore-app/",
+  "icons": [
+    {
+      "src": "/chore-app/manifest-icon-192.maskable.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/chore-app/manifest-icon-192.maskable.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "/chore-app/manifest-icon-512.maskable.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/chore-app/manifest-icon-512.maskable.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "/chore-app/apple-icon-180.png",
+      "sizes": "180x180",
+      "type": "image/png"
+    },
+    {
+      "src": "/chore-app/favicon-196.png",
+      "sizes": "196x196",
+      "type": "image/png"
+    }
+  ]
+}

@@ -23,7 +23,7 @@ export const ChoresView: React.FC = () => {
     <div className="flex flex-col h-full">
       <AppBar title="家事一覧" />
 
-      <div className="flex-1 overflow-y-auto px-4 pt-4">
+      <div className="flex-1 overflow-y-auto px-4 pt-4 pb-4">
         {chores.length === 0 ? (
           <div className="flex flex-col items-center justify-center min-h-[50vh] text-center">
             <h2 className="text-xl font-semibold text-gray-600 mb-2">

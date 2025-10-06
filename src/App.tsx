@@ -9,7 +9,7 @@ function App() {
   const { currentView } = useUIStore();
 
   return (
-    <div className="flex flex-col h-screen bg-gray-50">
+    <div className="flex flex-col h-[100dvh] bg-gray-50">
       <div className="flex-1 overflow-hidden">
         {currentView === "chores" && <ChoresView />}
         {currentView === "calendar" && <CalendarView />}

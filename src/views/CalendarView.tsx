@@ -84,7 +84,7 @@ export const CalendarView: React.FC = () => {
     <div className="flex flex-col h-full">
       <AppBar title="カレンダー" />
 
-      <div className="flex-1 overflow-y-auto px-4 pt-4">
+      <div className="flex-1 overflow-y-auto px-4 pt-4 pb-4">
         <Card className="p-4 mb-4">
           <div className="flex items-center justify-between mb-4">
             <button

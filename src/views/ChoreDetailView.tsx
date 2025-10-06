@@ -63,7 +63,7 @@ export const ChoreDetailView: React.FC = () => {
         onLeftClick={() => setView("chores")}
       />
 
-      <div className="flex-1 overflow-y-auto px-4 pt-4">
+      <div className="flex-1 overflow-y-auto px-4 pt-4 pb-4">
         <Card className="p-4 mb-4">
           <div className="flex items-center mb-3">
             <div

@@ -36,3 +36,6 @@ dist-ssr
 # PWA
 public/sw.js
 public/workbox-*.js
+
+# 開発用PWAファイル
+dev-dist/

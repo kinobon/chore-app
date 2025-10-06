@@ -17,8 +17,8 @@
   ],
   "theme_color": "#4caf50",
   "background_color": "#FFFFFF",
-  "start_url": "/chore-app/",
-  "scope": "/chore-app/",
+  "start_url": "/chore-app",
+  "scope": "/chore-app",
   "display": "standalone",
   "orientation": "portrait"
 }

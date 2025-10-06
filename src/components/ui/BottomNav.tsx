@@ -42,7 +42,7 @@ export const BottomNav: React.FC = () => {
   const { currentView, setView } = useUIStore();
 
   return (
-    <nav className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 shadow-lg z-40">
+    <nav className="bg-white border-t border-gray-200 shadow-lg z-40">
       <div className="flex justify-around">
         {tabs.map((tab) => (
           <button

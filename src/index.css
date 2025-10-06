@@ -136,6 +136,28 @@ textarea,
   }
 }
 
+@keyframes slideUpMenu {
+  from {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    transform: scale(0.9);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
 .view-enter {
   animation: fadeIn 0.2s ease-in-out;
 }
@@ -146,4 +168,16 @@ textarea,
 
 .animate-fadeInLeft {
   animation: fadeInLeft 0.15s ease-out;
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.2s ease-out;
+}
+
+.animate-slideUpMenu {
+  animation: slideUpMenu 0.25s ease-out;
+}
+
+.animate-scaleIn {
+  animation: scaleIn 0.15s ease-out;
 }

@@ -8,6 +8,7 @@ interface ChoreCardProps {
   onComplete: (id: string) => void;
   onUncomplete: (id: string) => void;
   onClick: (id: string) => void;
+  onLongPress?: (id: string, position: { x: number; y: number }) => void;
   className?: string;
 }
 
@@ -16,8 +17,13 @@ export const ChoreCard: React.FC<ChoreCardProps> = ({
   onComplete,
   onUncomplete,
   onClick,
+  onLongPress,
   className = "",
 }) => {
+  const [longPressTimer, setLongPressTimer] = React.useState<number | null>(
+    null
+  );
+
   const formatDate = (records: { date: string }[]) => {
     if (records.length === 0) return "未実施";
     const latestRecord = records.sort(
@@ -40,8 +46,52 @@ export const ChoreCard: React.FC<ChoreCardProps> = ({
     }
   };
 
+  const handleTouchStart = (e: React.TouchEvent) => {
+    if (!onLongPress) return;
+    const touch = e.touches[0];
+    const position = { x: touch.clientX, y: touch.clientY };
+
+    const timer = setTimeout(() => {
+      onLongPress(chore.id, position);
+    }, 500); // 500msで長押し判定
+    setLongPressTimer(timer);
+  };
+
+  const handleTouchEnd = () => {
+    if (longPressTimer) {
+      clearTimeout(longPressTimer);
+      setLongPressTimer(null);
+    }
+  };
+
+  const handleMouseDown = (e: React.MouseEvent) => {
+    if (!onLongPress) return;
+    const position = { x: e.clientX, y: e.clientY };
+
+    const timer = setTimeout(() => {
+      onLongPress(chore.id, position);
+    }, 500);
+    setLongPressTimer(timer);
+  };
+
+  const handleMouseUp = () => {
+    if (longPressTimer) {
+      clearTimeout(longPressTimer);
+      setLongPressTimer(null);
+    }
+  };
+
   return (
-    <Card onClick={() => onClick(chore.id)} className={`mb-4 ${className}`}>
+    <Card
+      onClick={() => onClick(chore.id)}
+      className={`mb-4 ${className}`}
+      onTouchStart={handleTouchStart}
+      onTouchEnd={handleTouchEnd}
+      onTouchCancel={handleTouchEnd}
+      onMouseDown={handleMouseDown}
+      onMouseUp={handleMouseUp}
+      onMouseLeave={handleMouseUp}
+    >
       <div className="p-4">
         <div className="flex items-center justify-between">
           <div className="flex items-center flex-1">

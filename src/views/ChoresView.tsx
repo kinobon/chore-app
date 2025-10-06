@@ -2,13 +2,17 @@ import React, { useState } from "react";
 import { FAB } from "../components/ui/FAB";
 import { ChoreCard } from "../components/ChoreCard";
 import { AddChoreModal } from "../components/AddChoreModal";
+import { EditChoreModal } from "../components/EditChoreModal";
+import { ContextMenu } from "../components/ui/ContextMenu";
 import { useChoresStore } from "@/store/useChoresStore";
 import { useUIStore } from "@/store/useUIStore";
+import type { Chore } from "@/store/useChoresStore";
 
 export const ChoresView: React.FC = () => {
   const {
     chores,
     addChore,
+    updateChore,
     completeChore,
     uncompleteChore,
     deleteChores,
@@ -23,6 +27,12 @@ export const ChoresView: React.FC = () => {
     selectAll,
   } = useUIStore();
   const [modalOpen, setModalOpen] = useState(false);
+  const [editModalOpen, setEditModalOpen] = useState(false);
+  const [contextMenuOpen, setContextMenuOpen] = useState(false);
+  const [contextMenuPosition, setContextMenuPosition] = useState<
+    { x: number; y: number } | undefined
+  >();
+  const [selectedChore, setSelectedChore] = useState<Chore | null>(null);
 
   const handleAddChore = (name: string, color: string) => {
     addChore(name, color);
@@ -70,6 +80,38 @@ export const ChoresView: React.FC = () => {
       newChores[index],
     ];
     reorderChores(newChores);
+  };
+
+  const handleLongPress = (
+    choreId: string,
+    position: { x: number; y: number }
+  ) => {
+    if (isEditMode) return; // 編集モード時は無効
+    const chore = chores.find((c) => c.id === choreId);
+    if (chore) {
+      setSelectedChore(chore);
+      // タッチ位置を記録
+      setContextMenuPosition(position);
+      setContextMenuOpen(true);
+    }
+  };
+
+  const handleEdit = () => {
+    if (selectedChore) {
+      setEditModalOpen(true);
+    }
+  };
+
+  const handleSaveEdit = (name: string, color: string) => {
+    if (selectedChore) {
+      updateChore(selectedChore.id, name, color);
+    }
+  };
+
+  const handleDelete = () => {
+    if (selectedChore && confirm(`「${selectedChore.name}」を削除しますか?`)) {
+      deleteChores([selectedChore.id]);
+    }
   };
 
   return (
@@ -129,6 +171,7 @@ export const ChoresView: React.FC = () => {
                   onComplete={completeChore}
                   onUncomplete={uncompleteChore}
                   onClick={handleChoreClick}
+                  onLongPress={handleLongPress}
                 />
               </div>
 
@@ -174,6 +217,41 @@ export const ChoresView: React.FC = () => {
         isOpen={modalOpen}
         onClose={() => setModalOpen(false)}
         onAdd={handleAddChore}
+      />
+
+      <ContextMenu
+        isOpen={contextMenuOpen}
+        onClose={() => setContextMenuOpen(false)}
+        position={contextMenuPosition}
+        actions={[
+          {
+            label: "編集",
+            icon: (
+              <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z" />
+              </svg>
+            ),
+            onClick: handleEdit,
+          },
+          {
+            label: "削除",
+            icon: (
+              <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z" />
+              </svg>
+            ),
+            onClick: handleDelete,
+            variant: "danger" as const,
+          },
+        ]}
+      />
+
+      <EditChoreModal
+        isOpen={editModalOpen}
+        choreName={selectedChore?.name || ""}
+        choreColor={selectedChore?.color || "#4caf50"}
+        onClose={() => setEditModalOpen(false)}
+        onSave={handleSaveEdit}
       />
     </div>
   );

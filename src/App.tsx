@@ -67,7 +67,9 @@ function App() {
             </svg>
           ) : undefined
         }
-        onLeftClick={headerConfig.showBack ? () => setView("chores") : undefined}
+        onLeftClick={
+          headerConfig.showBack ? () => setView("chores") : undefined
+        }
       />
 
       {/* コンテンツエリア */}

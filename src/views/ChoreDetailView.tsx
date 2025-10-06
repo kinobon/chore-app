@@ -22,7 +22,7 @@ export const ChoreDetailView: React.FC = () => {
         </div>
       </div>
     );
-  };
+  }
 
   const handleDelete = () => {
     deleteChore(chore.id);

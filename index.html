@@ -8,6 +8,16 @@
     <meta name="description" content="家事の管理と実施記録アプリ" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <title>家事管理アプリ</title>
+    <script>
+      // GitHub Pages SPAハック - 404ページからのリダイレクトを処理
+      (function() {
+        var redirect = sessionStorage.redirect;
+        delete sessionStorage.redirect;
+        if (redirect && redirect !== location.href) {
+          history.replaceState(null, null, redirect);
+        }
+      })();
+    </script>
   </head>
   <body>
     <div id="root"></div>

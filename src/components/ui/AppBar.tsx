@@ -14,14 +14,16 @@ export const AppBar: React.FC<AppBarProps> = ({
   return (
     <header className="bg-primary text-white shadow-md sticky top-0 z-40">
       <div className="flex items-center h-14 px-4">
-        {leftIcon && (
-          <button
-            onClick={onLeftClick}
-            className="mr-3 p-1 rounded-full hover:bg-blue-700 transition-colors"
-          >
-            {leftIcon}
-          </button>
-        )}
+        <div className="mr-3 w-8 flex items-center justify-center">
+          {leftIcon && (
+            <button
+              onClick={onLeftClick}
+              className="p-1 rounded-full hover:bg-blue-700 transition-colors animate-fadeInLeft"
+            >
+              {leftIcon}
+            </button>
+          )}
+        </div>
         <h1 className="text-xl font-semibold flex-1">{title}</h1>
       </div>
     </header>

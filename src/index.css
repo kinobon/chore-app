@@ -125,10 +125,25 @@ textarea,
   }
 }
 
+@keyframes fadeInLeft {
+  from {
+    transform: translateX(-8px);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
 .view-enter {
   animation: fadeIn 0.2s ease-in-out;
 }
 
 .view-exit {
   animation: fadeOut 0.15s ease-in-out;
+}
+
+.animate-fadeInLeft {
+  animation: fadeInLeft 0.15s ease-out;
 }

@@ -1,4 +1,5 @@
 import { BottomNav } from "./components/ui/BottomNav";
+import { AppBar } from "./components/ui/AppBar";
 import { ChoresView } from "./views/ChoresView";
 import { CalendarView } from "./views/CalendarView";
 import { SettingsView } from "./views/SettingsView";
@@ -10,10 +11,28 @@ import type { View } from "./store/useUIStore";
 const viewOrder: View[] = ["chores", "calendar", "settings"];
 
 function App() {
-  const { currentView } = useUIStore();
+  const { currentView, setView } = useUIStore();
   const [isTransitioning, setIsTransitioning] = useState(false);
   const [displayView, setDisplayView] = useState(currentView);
   const [direction, setDirection] = useState<"forward" | "backward">("forward");
+
+  // ビュー毎のヘッダー設定
+  const getHeaderConfig = (view: View) => {
+    switch (view) {
+      case "chores":
+        return { title: "家事一覧", showBack: false };
+      case "calendar":
+        return { title: "カレンダー", showBack: false };
+      case "settings":
+        return { title: "設定", showBack: false };
+      case "detail":
+        return { title: "家事詳細", showBack: true };
+      default:
+        return { title: "", showBack: false };
+    }
+  };
+
+  const headerConfig = getHeaderConfig(currentView);
 
   useEffect(() => {
     if (currentView !== displayView) {
@@ -38,6 +57,20 @@ function App() {
 
   return (
     <div className="flex flex-col h-[100dvh] bg-gray-50">
+      {/* 共通ヘッダー */}
+      <AppBar
+        title={headerConfig.title}
+        leftIcon={
+          headerConfig.showBack ? (
+            <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z" />
+            </svg>
+          ) : undefined
+        }
+        onLeftClick={headerConfig.showBack ? () => setView("chores") : undefined}
+      />
+
+      {/* コンテンツエリア */}
       <div className="flex-1 overflow-hidden relative">
         <div
           className={`absolute inset-0 transition-all duration-200 ease-in-out ${
@@ -54,6 +87,8 @@ function App() {
           {displayView === "detail" && <ChoreDetailView />}
         </div>
       </div>
+
+      {/* ボトムナビゲーション */}
       {currentView !== "detail" && <BottomNav />}
     </div>
   );

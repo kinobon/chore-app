@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { AppBar } from "../components/ui/AppBar";
 import { Card } from "../components/ui/Card";
 import { Modal } from "../components/ui/Modal";
 import { Button } from "../components/ui/Button";
@@ -75,8 +74,6 @@ export const SettingsView: React.FC = () => {
 
   return (
     <div className="flex flex-col h-full">
-      <AppBar title="設定" />
-
       <div className="flex-1 overflow-y-auto px-4 pt-4 pb-4">
         <div className="mb-6">
           <h3 className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-2 px-2">

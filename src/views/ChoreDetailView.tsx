@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { AppBar } from "../components/ui/AppBar";
 import { Card } from "../components/ui/Card";
 import { ChoreCalendar } from "../components/ChoreCalendar";
 import { EditChoreModal } from "../components/EditChoreModal";
@@ -18,21 +17,12 @@ export const ChoreDetailView: React.FC = () => {
   if (!chore) {
     return (
       <div className="flex flex-col h-full">
-        <AppBar
-          title="家事詳細"
-          leftIcon={
-            <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
-              <path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z" />
-            </svg>
-          }
-          onLeftClick={() => setView("chores")}
-        />
         <div className="flex-1 flex items-center justify-center">
           <p className="text-gray-500">家事が見つかりませんでした</p>
         </div>
       </div>
     );
-  }
+  };
 
   const handleDelete = () => {
     deleteChore(chore.id);
@@ -53,16 +43,6 @@ export const ChoreDetailView: React.FC = () => {
 
   return (
     <div className="flex flex-col h-full">
-      <AppBar
-        title="家事詳細"
-        leftIcon={
-          <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
-            <path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z" />
-          </svg>
-        }
-        onLeftClick={() => setView("chores")}
-      />
-
       <div className="flex-1 overflow-y-auto px-4 pt-4 pb-4">
         <Card className="p-4 mb-4">
           <div className="flex items-center mb-3">

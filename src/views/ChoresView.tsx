@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { AppBar } from "../components/ui/AppBar";
 import { FAB } from "../components/ui/FAB";
 import { ChoreCard } from "../components/ChoreCard";
 import { AddChoreModal } from "../components/AddChoreModal";
@@ -21,8 +20,6 @@ export const ChoresView: React.FC = () => {
 
   return (
     <div className="flex flex-col h-full relative">
-      <AppBar title="家事一覧" />
-
       <div className="flex-1 overflow-y-auto px-4 pt-4 pb-4">
         {chores.length === 0 ? (
           <div className="flex flex-col items-center justify-center min-h-[50vh] text-center">

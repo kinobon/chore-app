@@ -246,18 +246,22 @@ export const SettingsView: React.FC = () => {
           </div>
 
           <div>
-            <label className="block w-full">
+            <input
+              type="file"
+              accept="application/json,.json"
+              id="file-upload"
+              className="hidden"
+              onChange={handleFileUpload}
+            />
+            <label htmlFor="file-upload" className="block w-full mb-2">
               <Button
                 variant="secondary"
-                className="w-full mb-2"
-                onClick={() => {}}
+                className="w-full"
+                onClick={(e) => {
+                  e.preventDefault();
+                  document.getElementById('file-upload')?.click();
+                }}
               >
-                <input
-                  type="file"
-                  accept="application/json,.json"
-                  className="hidden"
-                  onChange={handleFileUpload}
-                />
                 ファイルを選択
               </Button>
             </label>

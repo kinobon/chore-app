@@ -25,10 +25,10 @@ export const AppBar: React.FC<AppBarProps> = ({
             </button>
           )}
         </div>
-        
+
         {/* 中央: タイトル */}
         <h1 className="text-xl font-semibold flex-1 text-center">{title}</h1>
-        
+
         {/* 右側: バランス用スペーサー */}
         <div className="w-8"></div>
       </div>

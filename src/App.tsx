@@ -9,11 +9,13 @@ function App() {
   const { currentView } = useUIStore();
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      {currentView === "chores" && <ChoresView />}
-      {currentView === "calendar" && <CalendarView />}
-      {currentView === "settings" && <SettingsView />}
-      {currentView === "detail" && <ChoreDetailView />}
+    <div className="flex flex-col h-screen bg-gray-50">
+      <div className="flex-1 overflow-hidden">
+        {currentView === "chores" && <ChoresView />}
+        {currentView === "calendar" && <CalendarView />}
+        {currentView === "settings" && <SettingsView />}
+        {currentView === "detail" && <ChoreDetailView />}
+      </div>
       {currentView !== "detail" && <BottomNav />}
     </div>
   );

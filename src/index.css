@@ -31,6 +31,30 @@ body {
   -webkit-overflow-scrolling: touch;
 }
 
+/* iOS: ロングプレス時のテキスト選択・コンテキストメニュー無効化 */
+* {
+  -webkit-touch-callout: none; /* iOS: コンテキストメニュー無効化 */
+  -webkit-user-select: none; /* iOS: テキスト選択無効化 */
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+/* 入力フィールドやテキストエリアでは選択を有効に */
+input,
+textarea,
+[contenteditable="true"] {
+  -webkit-user-select: text;
+  -moz-user-select: text;
+  -ms-user-select: text;
+  user-select: text;
+}
+
+/* iOS: タップハイライトを無効化 */
+* {
+  -webkit-tap-highlight-color: transparent;
+}
+
 /* iOS Safari: スクロールバーを非表示 */
 ::-webkit-scrollbar {
   display: none;

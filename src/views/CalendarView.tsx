@@ -99,7 +99,7 @@ export const CalendarView: React.FC = () => {
                 <path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z" />
               </svg>
             </button>
-            
+
             <div className="flex items-center gap-3">
               <h3 className="text-lg font-semibold">
                 {year}年{month + 1}月

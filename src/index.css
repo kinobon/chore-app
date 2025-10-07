@@ -26,6 +26,10 @@ body {
   overflow: hidden;
 }
 
+html, body, #root {
+  overscroll-behavior: none;
+}
+
 /* iOS向けスムーズスクロール */
 * {
   -webkit-overflow-scrolling: touch;
